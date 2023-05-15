@@ -3,7 +3,9 @@ package com.menesdurak.appcentcasestudycleanarchitecture.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
