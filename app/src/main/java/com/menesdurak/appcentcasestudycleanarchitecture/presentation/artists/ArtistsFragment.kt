@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.menesdurak.appcentcasestudycleanarchitecture.common.Resource
@@ -17,7 +18,7 @@ class ArtistsFragment : Fragment() {
     private var _binding: FragmentArtistsBinding? = null
     private val binding get() = _binding!!
     private val artistsViewModel: ArtistsViewModel by viewModels()
-    private val artistAdapter by lazy { ArtistAdapter() }
+    private val artistAdapter by lazy { ArtistAdapter(::onItemClick) }
     private var genreName: String = ""
     private var genreId: Int = -1
 
@@ -61,6 +62,12 @@ class ArtistsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun onItemClick(artistId: Int, artistName: String) {
+        val goToAlbumsAction =
+            ArtistsFragmentDirections.actionArtistsFragmentToAlbumsFragment(artistId, artistName)
+        findNavController().navigate(goToAlbumsAction)
     }
 
     override fun onDestroyView() {

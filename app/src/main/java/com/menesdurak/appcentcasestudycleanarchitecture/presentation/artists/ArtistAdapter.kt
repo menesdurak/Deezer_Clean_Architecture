@@ -1,36 +1,45 @@
 package com.menesdurak.appcentcasestudycleanarchitecture.presentation.artists
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.menesdurak.appcentcasestudycleanarchitecture.R
 import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.ArtistData
+import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemArtistBinding
 
-class ArtistAdapter: RecyclerView.Adapter<ArtistAdapter.ArtistHolder>() {
+class ArtistAdapter(private val onItemClicked: (Int, String) -> Unit) :
+    RecyclerView.Adapter<ArtistAdapter.ArtistHolder>() {
 
     private val itemList = mutableListOf<ArtistData>()
 
-    inner class ArtistHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ArtistHolder(private val binding: ItemArtistBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(artistData: ArtistData) {
+            binding.tvArtistName.text = artistData.name
+            Glide
+                .with(binding.root.context)
+                .load(itemList[adapterPosition].picture_medium)
+                .centerCrop()
+                .placeholder(R.drawable.loading)
+                .into(binding.ivArtist)
+            binding.root.setOnClickListener {
+                onItemClicked.invoke(artistData.id, artistData.name)
+            }
+        }
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistHolder {
-        return ArtistHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_artist, parent, false)
-        )
+        val bind = ItemArtistBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ArtistHolder(bind)
     }
 
     override fun getItemCount(): Int = itemList.size
 
     override fun onBindViewHolder(holder: ArtistHolder, position: Int) {
-        holder.itemView.findViewById<TextView>(R.id.tvArtistName).text = itemList[position].name
-        Glide
-            .with(holder.itemView.context)
-            .load(itemList[position].picture_medium)
-            .centerCrop()
-            .placeholder(R.drawable.loading)
-            .into(holder.itemView.findViewById(R.id.ivArtist))
+        holder.bind(itemList[position])
     }
 
     fun updateList(newList: List<ArtistData>) {
