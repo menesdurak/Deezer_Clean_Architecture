@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.menesdurak.appcentcasestudycleanarchitecture.common.Resource
@@ -63,8 +64,13 @@ class AlbumsFragment : Fragment() {
         }
     }
 
-    private fun onItemClick(albumId: Int, albumName: String) {
-
+    private fun onItemClick(albumId: Int, albumName: String, albumImage: String) {
+        val goToTracksAction = AlbumsFragmentDirections.actionAlbumsFragmentToTracksFragment(
+            albumId = albumId,
+            albumName = albumName,
+            albumImage = albumImage
+        )
+        findNavController().navigate(goToTracksAction)
     }
 
     override fun onDestroyView() {
