@@ -4,6 +4,7 @@ import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.DeezerApi
 import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.AlbumResponse
 import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.ArtistResponse
 import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.GenreResponse
+import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.TrackResponse
 import com.menesdurak.appcentcasestudycleanarchitecture.domain.repository.RemoteRepository
 import javax.inject.Inject
 
@@ -19,5 +20,9 @@ class RemoteRepositoryImpl @Inject constructor(private val api: DeezerApi) : Rem
 
     override suspend fun getAllAlbums(artistId: Int): AlbumResponse {
         return api.getAllAlbums(artistId)
+    }
+
+    override suspend fun getAllTracks(albumId: Int): TrackResponse {
+        return api.getAllTracks(albumId)
     }
 }
