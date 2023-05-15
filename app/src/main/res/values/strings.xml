@@ -6,4 +6,6 @@
     <string name="artist_name">Artist Name</string>
     <string name="image_of_the_artist">Image of the artist</string>
     <string name="image_of_album">Image of album</string>
+    <string name="is_favorite_icon">Is Favorite Icon</string>
+    <string name="track_image">Track image</string>
 </resources>
