@@ -3,6 +3,8 @@ package com.menesdurak.appcentcasestudycleanarchitecture.presentation.tracks
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.menesdurak.appcentcasestudycleanarchitecture.R
 import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.TrackData
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemTrackBinding
 
@@ -10,18 +12,21 @@ class TrackAdapter(private val onItemClicked: (Int) -> Unit) :
     RecyclerView.Adapter<TrackAdapter.TrackHolder>() {
 
     private val itemList = mutableListOf<TrackData>()
+    private var imageLink: String = ""
 
     inner class TrackHolder(private val binding: ItemTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(trackData: TrackData) {
             binding.tvTrackName.text = trackData.title
-//            Glide
-//                .with(binding.root.context)
-//                .load(itemList[adapterPosition].picture_medium)
-//                .centerCrop()
-//                .placeholder(R.drawable.loading)
-//                .into(binding.ivGenre)
+            if (imageLink != "") {
+                Glide
+                    .with(binding.root.context)
+                    .load(imageLink)
+                    .centerCrop()
+                    .placeholder(R.drawable.loading)
+                    .into(binding.ivTrack)
+            }
             binding.root.setOnClickListener {
                 onItemClicked.invoke(trackData.id)
             }
@@ -42,6 +47,11 @@ class TrackAdapter(private val onItemClicked: (Int) -> Unit) :
     fun updateList(newList: List<TrackData>) {
         itemList.clear()
         itemList.addAll(newList)
+        notifyDataSetChanged()
+    }
+
+    fun setImage(image: String) {
+        imageLink = image
         notifyDataSetChanged()
     }
 }

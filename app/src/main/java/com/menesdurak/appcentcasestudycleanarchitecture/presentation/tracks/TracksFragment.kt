@@ -38,6 +38,8 @@ class TracksFragment : Fragment() {
         albumName = args.albumName
         albumImage = args.albumImage
 
+        binding.tvAlbumName.text = albumName
+
         return view
     }
 
@@ -48,6 +50,7 @@ class TracksFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = trackAdapter
+        trackAdapter.setImage(albumImage)
 
         tracksViewModel.tracksList.observe(viewLifecycleOwner) {
             when (it) {
