@@ -8,7 +8,7 @@ import com.menesdurak.appcentcasestudycleanarchitecture.R
 import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.ArtistData
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemArtistBinding
 
-class ArtistAdapter(private val onItemClicked: (Int, String) -> Unit) :
+class ArtistAdapter(private val onItemClicked: (Int, String, String) -> Unit) :
     RecyclerView.Adapter<ArtistAdapter.ArtistHolder>() {
 
     private val itemList = mutableListOf<ArtistData>()
@@ -25,7 +25,7 @@ class ArtistAdapter(private val onItemClicked: (Int, String) -> Unit) :
                 .placeholder(R.drawable.loading)
                 .into(binding.ivArtist)
             binding.root.setOnClickListener {
-                onItemClicked.invoke(artistData.id, artistData.name)
+                onItemClicked.invoke(artistData.id, artistData.name, artistData.picture_medium)
             }
         }
 

@@ -64,9 +64,9 @@ class ArtistsFragment : Fragment() {
         }
     }
 
-    private fun onItemClick(artistId: Int, artistName: String) {
+    private fun onItemClick(artistId: Int, artistName: String, artistImage: String) {
         val goToAlbumsAction =
-            ArtistsFragmentDirections.actionArtistsFragmentToAlbumsFragment(artistId, artistName)
+            ArtistsFragmentDirections.actionArtistsFragmentToAlbumsFragment(artistId, artistName, artistImage)
         findNavController().navigate(goToAlbumsAction)
     }
 

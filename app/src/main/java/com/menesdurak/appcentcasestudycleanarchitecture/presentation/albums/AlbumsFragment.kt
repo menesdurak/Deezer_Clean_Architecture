@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.menesdurak.appcentcasestudycleanarchitecture.R
 import com.menesdurak.appcentcasestudycleanarchitecture.common.Resource
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.FragmentAlbumsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +23,7 @@ class AlbumsFragment : Fragment() {
     private val albumAdapter by lazy { AlbumAdapter(::onItemClick) }
     private var artistName: String = ""
     private var artistId: Int = -1
+    private var artistImage: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,8 +37,16 @@ class AlbumsFragment : Fragment() {
         val args: AlbumsFragmentArgs by navArgs()
         artistName = args.artistName
         artistId = args.artistId
+        artistImage = args.artistImage
 
         binding.tvArtistName.text = artistName
+
+        Glide
+            .with(binding.root.context)
+            .load(artistImage)
+            .centerCrop()
+            .placeholder(R.drawable.loading)
+            .into(binding.ivArtist)
 
         return view
     }
