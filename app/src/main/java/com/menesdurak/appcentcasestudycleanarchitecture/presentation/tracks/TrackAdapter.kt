@@ -8,7 +8,7 @@ import com.menesdurak.appcentcasestudycleanarchitecture.R
 import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.TrackData
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemTrackBinding
 
-class TrackAdapter(private val onItemClicked: (Int) -> Unit) :
+class TrackAdapter(private val onItemClicked: (Long) -> Unit) :
     RecyclerView.Adapter<TrackAdapter.TrackHolder>() {
 
     private val itemList = mutableListOf<TrackData>()

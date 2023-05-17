@@ -68,7 +68,7 @@ class TracksFragment : Fragment() {
         }
     }
 
-    private fun onItemClick(trackId: Int) {
+    private fun onItemClick(trackId: Long) {
         Toast.makeText(context, "Track Id: $trackId", Toast.LENGTH_SHORT).show()
     }
 
