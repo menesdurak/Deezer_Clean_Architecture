@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/genresFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/genresFragment"
         android:name="com.menesdurak.appcentcasestudycleanarchitecture.presentation.genres.GenresFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_genres" >
+        android:label="fragment_genres"
+        tools:layout="@layout/fragment_genres">
         <action
             android:id="@+id/action_homeFragment_to_artistsFragment"
             app:destination="@id/artistsFragment" />
@@ -62,4 +62,9 @@
             android:name="albumName"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.menesdurak.appcentcasestudycleanarchitecture.presentation.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
 </navigation>
