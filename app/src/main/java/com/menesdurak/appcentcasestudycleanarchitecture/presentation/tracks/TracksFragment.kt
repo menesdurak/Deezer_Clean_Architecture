@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.menesdurak.appcentcasestudycleanarchitecture.common.Resource
+import com.menesdurak.appcentcasestudycleanarchitecture.data.mapper.TrackDataMapper
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.FragmentTracksBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,13 +51,12 @@ class TracksFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = trackAdapter
-        trackAdapter.setImage(albumImage)
 
         tracksViewModel.tracksList.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    trackAdapter.updateList(it.data.data)
+                    trackAdapter.updateList(TrackDataMapper(albumImage).map(it.data.data))
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.VISIBLE

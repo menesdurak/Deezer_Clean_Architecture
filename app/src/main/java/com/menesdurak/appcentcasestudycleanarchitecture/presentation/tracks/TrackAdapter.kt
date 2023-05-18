@@ -5,30 +5,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.menesdurak.appcentcasestudycleanarchitecture.R
-import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.TrackData
+import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.TrackUiData
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemTrackBinding
 
 class TrackAdapter(private val onItemClicked: (Long) -> Unit) :
     RecyclerView.Adapter<TrackAdapter.TrackHolder>() {
 
-    private val itemList = mutableListOf<TrackData>()
-    private var imageLink: String = ""
+    private val itemList = mutableListOf<TrackUiData>()
 
     inner class TrackHolder(private val binding: ItemTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(trackData: TrackData) {
-            binding.tvTrackName.text = trackData.title
-            if (imageLink != "") {
-                Glide
-                    .with(binding.root.context)
-                    .load(imageLink)
-                    .centerCrop()
-                    .placeholder(R.drawable.loading)
-                    .into(binding.ivTrack)
-            }
+        fun bind(trackUiData: TrackUiData) {
+            binding.tvTrackName.text = trackUiData.title
+            Glide
+                .with(binding.root.context)
+                .load(trackUiData.image)
+                .centerCrop()
+                .placeholder(R.drawable.loading)
+                .into(binding.ivTrack)
             binding.root.setOnClickListener {
-                onItemClicked.invoke(trackData.id)
+                onItemClicked.invoke(trackUiData.id)
             }
         }
     }
@@ -44,14 +41,10 @@ class TrackAdapter(private val onItemClicked: (Long) -> Unit) :
         holder.bind(itemList[position])
     }
 
-    fun updateList(newList: List<TrackData>) {
+    fun updateList(newList: List<TrackUiData>) {
         itemList.clear()
         itemList.addAll(newList)
         notifyDataSetChanged()
     }
 
-    fun setImage(image: String) {
-        imageLink = image
-        notifyDataSetChanged()
-    }
 }
