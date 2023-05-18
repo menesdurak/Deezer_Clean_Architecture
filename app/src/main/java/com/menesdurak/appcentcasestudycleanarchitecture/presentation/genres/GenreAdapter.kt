@@ -5,27 +5,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.menesdurak.appcentcasestudycleanarchitecture.R
-import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.GenreData
+import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.GenreUiData
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemGenreBinding
 
 class GenreAdapter(private val onItemClicked: (Int, String) -> Unit) :
     RecyclerView.Adapter<GenreAdapter.GenreHolder>() {
 
-    private val itemList = mutableListOf<GenreData>()
+    private val itemList = mutableListOf<GenreUiData>()
 
     inner class GenreHolder(private val binding: ItemGenreBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(genreData: GenreData) {
-                binding.tvGenreName.text = genreData.name
+            fun bind(genreUiData: GenreUiData) {
+                binding.tvGenreName.text = genreUiData.name
                 Glide
                     .with(binding.root.context)
-                    .load(itemList[adapterPosition].picture_medium)
+                    .load(itemList[adapterPosition].picture)
                     .centerCrop()
                     .placeholder(R.drawable.loading)
                     .into(binding.ivGenre)
                 binding.root.setOnClickListener {
-                    onItemClicked.invoke(genreData.id, genreData.name)
+                    onItemClicked.invoke(genreUiData.id, genreUiData.name)
                 }
             }
 
@@ -42,7 +42,7 @@ class GenreAdapter(private val onItemClicked: (Int, String) -> Unit) :
         holder.bind(itemList[position])
     }
 
-    fun updateList(newList: List<GenreData>) {
+    fun updateList(newList: List<GenreUiData>) {
         itemList.clear()
         itemList.addAll(newList)
         notifyDataSetChanged()

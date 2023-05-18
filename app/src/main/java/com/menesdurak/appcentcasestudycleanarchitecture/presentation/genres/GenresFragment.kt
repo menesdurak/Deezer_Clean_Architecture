@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.menesdurak.appcentcasestudycleanarchitecture.common.Resource
+import com.menesdurak.appcentcasestudycleanarchitecture.data.mapper.GenreDataMapper
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.FragmentGenresBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +43,7 @@ class GenresFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    genreAdapter.updateList(it.data.data)
+                    genreAdapter.updateList(GenreDataMapper().map(it.data.data))
                 }
 
                 is Resource.Error -> {
