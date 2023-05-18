@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.menesdurak.appcentcasestudycleanarchitecture.common.Resource
+import com.menesdurak.appcentcasestudycleanarchitecture.data.mapper.ArtistDataMapper
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.FragmentArtistsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,7 +53,7 @@ class ArtistsFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    artistAdapter.updateList(it.data.data)
+                    artistAdapter.updateList(ArtistDataMapper().map(it.data.data))
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.VISIBLE

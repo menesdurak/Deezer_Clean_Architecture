@@ -5,27 +5,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.menesdurak.appcentcasestudycleanarchitecture.R
-import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.ArtistData
+import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.ArtistUiData
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemArtistBinding
 
 class ArtistAdapter(private val onItemClicked: (Int, String, String) -> Unit) :
     RecyclerView.Adapter<ArtistAdapter.ArtistHolder>() {
 
-    private val itemList = mutableListOf<ArtistData>()
+    private val itemList = mutableListOf<ArtistUiData>()
 
     inner class ArtistHolder(private val binding: ItemArtistBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(artistData: ArtistData) {
-            binding.tvArtistName.text = artistData.name
+        fun bind(artistUiData: ArtistUiData) {
+            binding.tvArtistName.text = artistUiData.name
             Glide
                 .with(binding.root.context)
-                .load(itemList[adapterPosition].picture_medium)
+                .load(itemList[adapterPosition].picture)
                 .centerCrop()
                 .placeholder(R.drawable.loading)
                 .into(binding.ivArtist)
             binding.root.setOnClickListener {
-                onItemClicked.invoke(artistData.id, artistData.name, artistData.picture_medium)
+                onItemClicked.invoke(artistUiData.id, artistUiData.name, artistUiData.picture)
             }
         }
 
@@ -42,7 +42,7 @@ class ArtistAdapter(private val onItemClicked: (Int, String, String) -> Unit) :
         holder.bind(itemList[position])
     }
 
-    fun updateList(newList: List<ArtistData>) {
+    fun updateList(newList: List<ArtistUiData>) {
         itemList.clear()
         itemList.addAll(newList)
         notifyDataSetChanged()
