@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.menesdurak.appcentcasestudycleanarchitecture.R
 import com.menesdurak.appcentcasestudycleanarchitecture.common.Resource
+import com.menesdurak.appcentcasestudycleanarchitecture.data.mapper.AlbumDataMapper
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.FragmentAlbumsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,7 +64,7 @@ class AlbumsFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    albumAdapter.updateList(it.data.data)
+                    albumAdapter.updateList(AlbumDataMapper().map(it.data.data))
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.VISIBLE
