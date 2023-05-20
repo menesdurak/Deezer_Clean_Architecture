@@ -9,7 +9,7 @@ import com.menesdurak.appcentcasestudycleanarchitecture.data.local.entity.Favori
 @Dao
 interface DeezerDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addFavoriteTrack(favoriteTrack: FavoriteTrack)
 
     @Query("DELETE FROM deezer_table WHERE id = :favoriteTrackId")
