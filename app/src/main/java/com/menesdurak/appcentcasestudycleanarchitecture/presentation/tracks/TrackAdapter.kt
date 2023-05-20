@@ -8,10 +8,14 @@ import com.menesdurak.appcentcasestudycleanarchitecture.R
 import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.TrackUiData
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemTrackBinding
 
-class TrackAdapter(private val onItemClicked: (Long) -> Unit) :
-    RecyclerView.Adapter<TrackAdapter.TrackHolder>() {
+class TrackAdapter(
+    private val onPlayClicked: (Long) -> Unit,
+    private val onFavoriteClicked: (TrackUiData, Int) -> Unit,
+    private val onFavoriteUpdate: (TrackUiData) -> Unit
+) : RecyclerView.Adapter<TrackAdapter.TrackHolder>() {
 
     private val itemList = mutableListOf<TrackUiData>()
+    private val favoriteTracksIdList = mutableListOf<Long>()
 
     inner class TrackHolder(private val binding: ItemTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -24,8 +28,19 @@ class TrackAdapter(private val onItemClicked: (Long) -> Unit) :
                 .centerCrop()
                 .placeholder(R.drawable.loading)
                 .into(binding.ivTrack)
+            if (trackUiData.id in favoriteTracksIdList) {
+                trackUiData.isFavorite = true
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
+            } else {
+                trackUiData.isFavorite = false
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite_empty)
+            }
             binding.root.setOnClickListener {
-                onItemClicked.invoke(trackUiData.id)
+                onPlayClicked.invoke(trackUiData.id)
+            }
+            binding.ivFavorite.setOnClickListener {
+                onFavoriteClicked(trackUiData, adapterPosition)
+                onFavoriteUpdate(trackUiData)
             }
         }
     }
@@ -47,4 +62,19 @@ class TrackAdapter(private val onItemClicked: (Long) -> Unit) :
         notifyDataSetChanged()
     }
 
+    fun updateFavoriteTracksIdList(newFavoriteTracksIdList: List<Long>) {
+        favoriteTracksIdList.clear()
+        favoriteTracksIdList.addAll(newFavoriteTracksIdList)
+        notifyDataSetChanged()
+    }
+
+    fun updateFavoriteStatusOfTrack(position: Int, id: Long) {
+        if (id !in favoriteTracksIdList) {
+            favoriteTracksIdList.add(id)
+        } else {
+            favoriteTracksIdList.remove(id)
+        }
+        itemList[position].isFavorite = !itemList[position].isFavorite
+        notifyItemChanged(position)
+    }
 }
