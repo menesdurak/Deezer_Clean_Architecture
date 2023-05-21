@@ -9,7 +9,7 @@ import com.menesdurak.appcentcasestudycleanarchitecture.data.remote.dto.TrackUiD
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemTrackBinding
 
 class TrackAdapter(
-    private val onPlayClicked: (Long) -> Unit,
+    private val onPlayClicked: (TrackUiData) -> Unit,
     private val onFavoriteClicked: (TrackUiData, Int) -> Unit,
     private val onFavoriteUpdate: (TrackUiData) -> Unit
 ) : RecyclerView.Adapter<TrackAdapter.TrackHolder>() {
@@ -36,7 +36,7 @@ class TrackAdapter(
                 binding.ivFavorite.setImageResource(R.drawable.ic_favorite_empty)
             }
             binding.root.setOnClickListener {
-                onPlayClicked.invoke(trackUiData.id)
+                onPlayClicked.invoke(trackUiData)
             }
             binding.ivFavorite.setOnClickListener {
                 onFavoriteClicked(trackUiData, adapterPosition)

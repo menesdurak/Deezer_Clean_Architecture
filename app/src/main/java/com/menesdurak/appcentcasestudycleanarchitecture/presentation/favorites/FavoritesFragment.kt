@@ -1,11 +1,12 @@
 package com.menesdurak.appcentcasestudycleanarchitecture.presentation.favorites
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.menesdurak.appcentcasestudycleanarchitecture.common.Resource
@@ -20,6 +21,7 @@ class FavoritesFragment : Fragment() {
     private val binding get() = _binding!!
     private val favoritesViewModel: FavoritesViewModel by viewModels()
     private val favoriteAdapter by lazy { FavoriteAdapter(::onItemClick, ::onFavoriteClick) }
+    private val mediaPlayer: MediaPlayer = MediaPlayer()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,12 +59,26 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun onItemClick(favoriteTrack: FavoriteTrack) {
-        Toast.makeText(context, favoriteTrack.name, Toast.LENGTH_SHORT).show()
+        if (!mediaPlayer.isPlaying) {
+            playTrack(mediaPlayer, favoriteTrack.preview)
+        } else {
+            mediaPlayer.stop()
+            mediaPlayer.reset()
+        }
     }
 
     private fun onFavoriteClick(position: Int, trackId: Long) {
         favoritesViewModel.deleteTrackFromFavorites(trackId)
         favoriteAdapter.deleteItem(position, trackId)
+    }
+
+    private fun playTrack(mediaPlayer: MediaPlayer, trackUrl: String) {
+        mediaPlayer.setAudioAttributes(
+            AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
+        )
+        mediaPlayer.setDataSource(trackUrl)
+        mediaPlayer.prepare()
+        mediaPlayer.start()
     }
 
     override fun onDestroyView() {

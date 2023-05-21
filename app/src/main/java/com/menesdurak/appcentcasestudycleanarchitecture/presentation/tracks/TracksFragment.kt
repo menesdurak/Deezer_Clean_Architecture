@@ -1,5 +1,7 @@
 package com.menesdurak.appcentcasestudycleanarchitecture.presentation.tracks
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -35,6 +37,7 @@ class TracksFragment : Fragment() {
     private var albumId: Int = -1
     private var albumName: String = ""
     private var albumImage: String = ""
+    private val mediaPlayer: MediaPlayer = MediaPlayer()
     private lateinit var favoriteTracksIdList: List<Long>
 
     override fun onCreateView(
@@ -98,8 +101,22 @@ class TracksFragment : Fragment() {
         }
     }
 
-    private fun onPlayClick(trackId: Long) {
-        Toast.makeText(context, "Track Id: $trackId", Toast.LENGTH_SHORT).show()
+    private fun onPlayClick(trackUiData: TrackUiData) {
+        if (!mediaPlayer.isPlaying) {
+            playTrack(mediaPlayer, trackUiData.preview)
+        } else {
+            mediaPlayer.stop()
+            mediaPlayer.reset()
+        }
+    }
+
+    private fun playTrack(mediaPlayer: MediaPlayer, trackUrl: String) {
+        mediaPlayer.setAudioAttributes(
+            AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
+        )
+        mediaPlayer.setDataSource(trackUrl)
+        mediaPlayer.prepare()
+        mediaPlayer.start()
     }
 
     private fun onFavoriteClick(trackUiData: TrackUiData, position: Int) {
