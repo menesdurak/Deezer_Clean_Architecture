@@ -8,7 +8,10 @@ import com.menesdurak.appcentcasestudycleanarchitecture.R
 import com.menesdurak.appcentcasestudycleanarchitecture.data.local.entity.FavoriteTrack
 import com.menesdurak.appcentcasestudycleanarchitecture.databinding.ItemTrackBinding
 
-class FavoriteAdapter(private val onItemClicked: (FavoriteTrack) -> Unit) :
+class FavoriteAdapter(
+    private val onItemClicked: (FavoriteTrack) -> Unit,
+    private val onFavoriteClicked: (Int, Long) -> Unit
+) :
     RecyclerView.Adapter<FavoriteAdapter.FavoriteHolder>() {
 
     private val itemList = mutableListOf<FavoriteTrack>()
@@ -24,8 +27,12 @@ class FavoriteAdapter(private val onItemClicked: (FavoriteTrack) -> Unit) :
                 .centerCrop()
                 .placeholder(R.drawable.loading)
                 .into(binding.ivTrack)
+            binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
             binding.root.setOnClickListener {
                 onItemClicked.invoke(favoriteTrack)
+            }
+            binding.ivFavorite.setOnClickListener {
+                onFavoriteClicked(adapterPosition, favoriteTrack.id)
             }
         }
 
@@ -46,5 +53,10 @@ class FavoriteAdapter(private val onItemClicked: (FavoriteTrack) -> Unit) :
         itemList.clear()
         itemList.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    fun deleteItem(position: Int, trackId: Long) {
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
     }
 }

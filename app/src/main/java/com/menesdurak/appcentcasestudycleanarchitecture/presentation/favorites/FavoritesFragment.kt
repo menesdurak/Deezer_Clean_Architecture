@@ -19,7 +19,7 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
     private val favoritesViewModel: FavoritesViewModel by viewModels()
-    private val favoriteAdapter by lazy { FavoriteAdapter(::onItemClick) }
+    private val favoriteAdapter by lazy { FavoriteAdapter(::onItemClick, ::onFavoriteClick) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +43,6 @@ class FavoritesFragment : Fragment() {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
                     favoriteAdapter.updateList(it.data)
-                    for (i in it.data) {
-                        println(i)
-                    }
                 }
 
                 is Resource.Error -> {
@@ -61,6 +58,11 @@ class FavoritesFragment : Fragment() {
 
     private fun onItemClick(favoriteTrack: FavoriteTrack) {
         Toast.makeText(context, favoriteTrack.name, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onFavoriteClick(position: Int, trackId: Long) {
+        favoritesViewModel.deleteTrackFromFavorites(trackId)
+        favoriteAdapter.deleteItem(position, trackId)
     }
 
     override fun onDestroyView() {
