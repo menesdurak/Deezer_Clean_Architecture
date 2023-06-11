@@ -4,8 +4,6 @@ Deezer App
   </p>
 </br>
 
-Deezer with Clean Architecture: https://github.com/menesdurak/Deezer_Clean_Architecture
-
 ## Screenshots
 <table>
     <tr>
@@ -32,7 +30,7 @@ Deezer with Clean Architecture: https://github.com/menesdurak/Deezer_Clean_Archi
 
 - Minimum SDK level 24
 - [Kotlin](https://kotlinlang.org/), [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) and [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
-- [MVVM Architecture](https://developer.android.com/jetpack/guide) - Modern, maintainable, and Google suggested app architecture
+- Clean Architecture
 - [Navigation Component](https://developer.android.com/guide/navigation) - Single activity multiple fragments approach
 - [JetPack](https://developer.android.com/jetpack)
     - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) - Observable lists.
