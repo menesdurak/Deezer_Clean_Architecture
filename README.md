@@ -1,7 +1,4 @@
-<h1 align="center">Appcent Case Study</h1>
-<p align="center">  
-Deezer App
-  </p>
+<h1 align="center">Deezer App</h1>
 </br>
 
 ## Screenshots
